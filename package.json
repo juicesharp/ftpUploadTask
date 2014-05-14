@@ -1,0 +1,44 @@
+{
+  "name": "grunt-ftpUploadTask",
+  "description": "Push your files to ftp server",
+  "version": "0.1.0",
+  "homepage": "https://github.com/juicesharp/ftpUploadTask",
+  "author": {
+    "name": "Sergii Guslystyi",
+    "email": "s.guslisty@hotmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/juicesharp/ftpUploadTask.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juicesharp/ftpUploadTask/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/juicesharp/ftpUploadTask/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "dependencies":{
+      "async": "^0.8.0",
+      "colors": "^0.6.2",
+      "ftp": "^0.3.6",
+      "grunt": "~0.4.4"
+  },
+  "devDependencies": {
+    "async": "^0.8.0",
+    "colors": "^0.6.2",
+    "ftp": "^0.3.6",
+    "grunt": "~0.4.4"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.4"
+  },
+  "keywords": [
+    "ftp", "upload", "grunt"
+  ]
+}
