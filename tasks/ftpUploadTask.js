@@ -27,40 +27,30 @@ module.exports = function(grunt) {
                 }
 
                 if(grunt.file.isDir(fsObject.getPath())) {
-                    fileUploadedCb(null, 'success');
+                    fileUploadedCb(null, fsObject);
                 }
                 else {
                     client.put(fsObject.getPath(), fsObject.getDest(), function (err) {
                         if (err) { throw err; }
 
-                        fileUploadedCb(null, 'success');
+                        fileUploadedCb(err, fsObject);
                     });
                 }
             });
         }
 
-        var q = async.queue(function(item, clb){
-            uploadFile(client, item, clb);
-        }, 2);
-
-        q.drain = function() {
-            console.log('All items have been uploaded.');
-            filesUploadedCb(null, 'success');
-        };
-
         var progress = progressBar(queue.length);
-        for(var i = 0; i < queue.length; ++i){
-            (function(d) {
-                q.push(d, function (err) {
-                    if(err){
-                        throw err;
-                    }
-
+        async.forEachLimit(queue, 2, function (item, clb){
+            uploadFile(client, item, function(err, data){
+                if(!err) {
                     progress.increment();
-                    progress.printProgress('Ok', d.toString());
-                });
-            })(queue[i]);
-        }
+                    progress.printProgress('Ok', data.toString());
+                }
+                clb(err, data);
+            })
+        }, function (err, result){
+            filesUploadedCb(err, result);
+        });
     }
 
     grunt.registerMultiTask('ftpUploadTask', 'Push files to ftp server', function() {
