@@ -13,7 +13,7 @@ var FtpClient = require('ftp');
 var path = require('path');
 var async = require('async');
 var progressBar = require('./progressBar');
-var fileDescriptor = require('./fileDescriptor');
+var FileDescriptor = require('./fileDescriptor');
 
 module.exports = function(grunt) {
 
@@ -63,13 +63,17 @@ module.exports = function(grunt) {
             username: 'anonymous'
         });
 
+        if(!options.host)
+            throw Error('You have to specify a host.')
+
         var fileDescriptors = [];
 
         this.files.forEach(function(file) {
-           file.src.filter(function(path) {
+           file.src.filter(function (path) {
                 return grunt.file.exists(path);
-            }).map(function(path) {
-               fileDescriptors.push(fileDescriptor(path, file.dest));
+            }).map(function insertDescriptor(path) {
+               var descriptor = new FileDescriptor(path, file.dest);
+               fileDescriptors.push(descriptor);
             });
         });
 
@@ -77,8 +81,9 @@ module.exports = function(grunt) {
 
         var client = new FtpClient();
 
-        client.on('ready', function() {
+        client.on('ready', function handleConnection() {
             console.log('[Ok]'.green + ' ftp connection established ...');
+
             uploadToServer(client, fileDescriptors, function(err, data){
                 if(err) {
                     console.log('[Error]'.red + ' upload to server failed.');
