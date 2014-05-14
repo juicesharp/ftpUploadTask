@@ -1,5 +1,5 @@
 {
-  "name": "grunt-ftpUploadTask",
+  "name": "grunt-ftpuploadtask",
   "description": "Push your files to ftp server",
   "version": "0.1.0",
   "homepage": "https://github.com/juicesharp/ftpUploadTask",

@@ -1,4 +1,4 @@
-# grunt-ftpUploadTask
+# grunt-ftpuploadtask
 
 > Push files to ftp server
 
@@ -17,7 +17,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-ftpUploadTask');
 ```
 
-## The "ftpUploadTask" task
+## The "ftpuploadtask" task
 
 ### Overview
 In your project's Gruntfile, add a section named `ftpUploadTask` to the data object passed into `grunt.initConfig()`.
