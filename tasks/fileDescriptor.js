@@ -1,21 +1,16 @@
-module.exports = function(path, dest){
+module.exports = function FileDescriptor(path, dest){
     this.path = path;
     this.dest = dest;
 
-    function getDest(){
-        return dest;
+    this.getDest = function(){
+        return this.dest;
     }
 
-    function getPath(){
-        return path;
+    this.getPath = function(){
+        return this.path;
     }
 
-    function printable() {
-        return path + ' --> ' + dest;
-    }
-    return {
-        getDest: getDest,
-        getPath : getPath,
-        toString: printable
+    this.toString = function() {
+        return this.path + ' --> ' + this.dest;
     }
 };

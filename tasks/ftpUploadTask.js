@@ -12,7 +12,7 @@ require('colors');
 var FtpClient = require('ftp');
 var path = require('path');
 var async = require('async');
-var progressBar = require('./progressBar');
+var ProgressBar = require('./progressBar');
 var FileDescriptor = require('./fileDescriptor');
 
 module.exports = function(grunt) {
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
             });
         }
 
-        var progress = progressBar(queue.length);
+        var progress = new ProgressBar(queue.length);
         async.forEachLimit(queue, 2, function (item, clb){
             uploadFile(client, item, function(err, data){
                 if(!err) {

@@ -1,17 +1,19 @@
 module.exports = function(total){
-    var itemsToProcess = total;
+    this.total = total;
     var itemsProcessed = 0;
+
+    function currentProgress(){
+        return (itemsProcessed * 100) / total;
+    }
 
     return{
         increment : function (){
             itemsProcessed++;
         },
-        currentProgress : function(){
-            return (itemsProcessed * 100) / itemsToProcess;
-        },
+        currentProgress : currentProgress,
         printProgress : function(status, description){
             var toPrint = '['.green + status.green +'] '.green  +
-                this.currentProgress().toFixed(2) + '% ' + description;
+                currentProgress().toFixed(2) + '% ' + description;
             console.log(toPrint);
         }
     }
