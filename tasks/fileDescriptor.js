@@ -1,16 +1,17 @@
-module.exports = function FileDescriptor(path, dest){
-    this.path = path;
-    this.dest = dest;
+function FileDescriptor(path, dest){
+    if(this instanceof FileDescriptor) {
+        this.path = path;
+        this.dest = dest;
+    }else{
+        return new FileDescriptor(path, dest);
+    }
+}
 
-    this.getDest = function(){
-        return this.dest;
-    };
-
-    this.getPath = function(){
-        return this.path;
-    };
-
-    this.toString = function() {
-        return this.path + ' --> ' + this.dest;
-    };
+FileDescriptor.prototype = {
+    constructor : FileDescriptor,
+    getDest : function(){ return this.dest; },
+    getPath : function(){ return this.path; },
+    print   : function(){ return this.path + ' --> ' + this.dest; }
 };
+
+module.exports = FileDescriptor;

@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             uploadFile(client, item, function(err, data){
                 if(!err) {
                     progress.increment();
-                    progress.printProgress('Ok', data.toString());
+                    progress.printProgress('Ok', data.print());
                 }
                 clb(err, data);
             })
