@@ -11,16 +11,16 @@ function ProgressBar(total){
 
     this.getTotal = function() {
         return _total;
-    }
+    };
 
     this.getItemsProcessed = function(){
         return _itemsProcessed;
-    }
+    };
 
     this.increment = function(){
         _itemsProcessed++;
     }
-};
+}
 
 ProgressBar.prototype = {
     constructor : ProgressBar,
