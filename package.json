@@ -23,11 +23,12 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "dependencies":{
-      "async": "^0.8.0",
-      "colors": "^0.6.2",
-      "ftp": "^0.3.6",
-      "grunt": "~0.4.4"
+  "dependencies": {
+    "async": "^0.8.0",
+    "colors": "^0.6.2",
+    "ftp": "^0.3.6",
+    "grunt": "~0.4.4",
+    "sha1": "1.1.0"
   },
   "devDependencies": {
     "async": "^0.8.0",
@@ -39,6 +40,8 @@
     "grunt": "~0.4.4"
   },
   "keywords": [
-    "ftp", "upload", "grunt"
+    "ftp",
+    "upload",
+    "grunt"
   ]
 }
