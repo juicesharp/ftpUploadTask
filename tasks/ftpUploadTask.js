@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                     progress.increment();
 
                     if (item.shouldSkip()) {
-                        progress.printProgress('Skip', data.print());
+                        progress.printProgress('--', data.print());
                     } else {
                         progress.printProgress('Ok', data.print());
                     }
@@ -73,20 +73,20 @@ module.exports = function(grunt) {
 
         client.put(b, targetFile, function(err) {
             if (!err)
-                console.log('[Ok]'.green + ' Uploaded checksums to ' + targetFile + ' ...');
+                console.log('[Ok]'.green + ' uploaded checksums to ' + targetFile + ' ...');
 
             callback(err);
         });
     }
 
     function downloadSha(client, queue, targetFile, callback) {
-        console.log('[Ok]'.green + ' Checking for checksum file ' + targetFile + ' ...');
+        console.log('[Ok]'.green + ' checking for checksum file ' + targetFile + ' ...');
 
         client.get(targetFile, function(err, stream) {
             var jsonData = "";
 
             if (err) {
-                console.log('[Skip]'.yellow + ' Checksum file not found ...');
+                console.log('[--]'.yellow + ' checksum file not found ...');
                 callback();
                 return;
             }
@@ -109,13 +109,15 @@ module.exports = function(grunt) {
                         fileDescriptor.setRemoteSha(remoteSha);
                 });
 
-                console.log('[Ok]'.green + ' Checksum file downloaded ...');
+                console.log('[Ok]'.green + ' checksum file downloaded ...');
                 callback();
             });
         });
     }
 
     grunt.registerMultiTask('ftpUploadTask', 'Push files to ftp server', function() {
+        var started = new Date();
+
         console.log('[Ok]'.green + ' ftp upload task started ...');
         var done = this.async();
 
@@ -123,7 +125,7 @@ module.exports = function(grunt) {
             port: 21,
             password: null,
             username: 'anonymous',
-            checksums: null
+            checksumfile: null
         });
 
         if (!options.host)
@@ -149,8 +151,8 @@ module.exports = function(grunt) {
 
             async.series([
                 function(cb) {
-                    if (options.checksums) {
-                        downloadSha(client, fileDescriptors, options.checksums, cb);
+                    if (options.checksumfile) {
+                        downloadSha(client, fileDescriptors, options.checksumfile, cb);
                     } else {
                         cb(null);
                     }
@@ -161,36 +163,24 @@ module.exports = function(grunt) {
                 },
 
                 function(cb) {
-                    if (options.checksums) {
-                        uploadSha(client, fileDescriptors, options.checksums, cb)
+                    if (options.checksumfile) {
+                        uploadSha(client, fileDescriptors, options.checksumfile, cb)
                     } else {
                         cb(null);
                     }
-                },
-
-                function(cb) {
-                    client.end();
-                    done();
                 }
             ], function(err) {
                 if (err) {
                     console.log('[Error]'.red + ' upload to server failed.');
                     throw err;
                 } else {
+                    var current = new Date();
+                    console.log('[Ok]'.green + ' completed in ' + (current - started) / 1000 + ' seconds.');
+
                     client.end();
                     done();
                 }
             });
-
-            /*uploadToServer(client, fileDescriptors, function(err, data){
-                if(err) {
-                    console.log('[Error]'.red + ' upload to server failed.');
-                    throw err;
-                }
-
-                client.end();
-                done();
-            });*/
         });
 
         client.on('error', function(err) {
