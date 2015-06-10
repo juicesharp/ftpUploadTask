@@ -1,7 +1,7 @@
 {
   "name": "grunt-ftpuploadtask",
   "description": "Push your files to ftp server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/juicesharp/ftpUploadTask",
   "author": {
     "name": "Sergii Guslystyi",
